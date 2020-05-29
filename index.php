@@ -5,7 +5,7 @@ spl_autoload_register(function ($name) {
 });
 
 date_default_timezone_set('Asia/Shanghai');
-error_reporting(0);
+// error_reporting(0);
 set_error_handler(function ($errno, $errstr, $errfile, $errline) {
     $logDir = Constant::LOG_DIR;
     $now = time();

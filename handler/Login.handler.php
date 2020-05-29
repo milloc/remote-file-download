@@ -1,5 +1,5 @@
 <?php
-Helper::registryFilter("/", function () {
+Helper::registryFilter("/**", function () {
     if (($uri = $_SERVER['REQUEST_URI']) == '/toLogin' || $uri == '/login') {
         return true;
     }
@@ -12,7 +12,7 @@ Helper::registryFilter("/", function () {
         }
     }
 
-    header('Location: /toLogin');
+    header('Location: toLogin');
     exit;
 });
 

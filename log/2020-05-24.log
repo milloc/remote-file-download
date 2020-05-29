@@ -1,4 +1,0 @@
-[2020-05-24 02:31:39] 2 : Division by zero : F:\php\filedownload\handler\Login.handler.php(24)
-[2020-05-24 02:31:47] 2 : Division by zero : F:\php\filedownload\handler\Login.handler.php(24)
-[2020-05-24 02:33:22] 2 : rmdir(F:\php\filedownload\class\..\tmp\Camera Roll): Permission denied : F:\php\filedownload\handler\File.handler.php(136)
-[2020-05-24 02:33:22] 2 : rmdir(F:\php\filedownload\class\..\tmp\Saved Pictures): Permission denied : F:\php\filedownload\handler\File.handler.php(136)
