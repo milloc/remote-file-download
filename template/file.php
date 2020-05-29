@@ -60,7 +60,7 @@
     }
 
     function fileList() {
-        $.ajax('/listFile', {
+        $.ajax('listFile', {
             headers: {'token': localStorage.getItem('token')},
             success: (res) => {
                 console.log(res);
@@ -103,7 +103,7 @@
             return;
         }
 
-        $.ajax('/rmFile', {
+        $.ajax('rmFile', {
             headers: {'token': localStorage.getItem('token'), 'content-type': 'application/json'},
             type: 'post',
             data: JSON.stringify({'files': selectedFiles}),
@@ -125,7 +125,7 @@
             return;
         }
 
-        $.ajax('/downFile', {
+        $.ajax('downFile', {
             headers: {'token': localStorage.getItem('token'), 'content-type': 'application/json'},
             type: 'post',
             data: JSON.stringify({'files': selectedFiles}),
@@ -147,7 +147,7 @@
             return;
         }
 
-        $.ajax("/remoteDownload", {
+        $.ajax("remoteDownload", {
             headers: {'token': localStorage.getItem('token'), 'content-type': 'application/json'},
             type: 'post',
             data: JSON.stringify({'url': url}),

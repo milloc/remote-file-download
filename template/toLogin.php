@@ -29,7 +29,7 @@
     <div class="container" style="margin-top: 200px;">
         <div class="row">
             <div class="col-md-3 col-md-offset-8 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
-                <form class="form" method="post" action="/login">
+                <form class="form" method="post" action="login">
                     <div class="form-group">
                         <label for="username">用户名</label>
                         <input class="form-control" id="username" type="text" name="username">
