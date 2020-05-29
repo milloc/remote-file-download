@@ -56,7 +56,7 @@
 
     function getSelectedFiles() {
         let files;
-        return (files = $('#fileList').jstree().get_selected(true)).length == 0 ? [] : files.map((item) => item.data.filePath);
+        return (files = $('#fileList').jstree().get_selected(true)).length == 0 ? [] : files.map((item) => item.data.filePath).filter(f => f != '');
     }
 
     function fileList() {
@@ -97,7 +97,7 @@
     }
 
     function rmFile() {
-        let selectedFiles = getSelectedFiles().filter(f => f != '');
+        let selectedFiles = getSelectedFiles();
         if (selectedFiles.length == 0) {
             alert('请选择文件!');
             return;
