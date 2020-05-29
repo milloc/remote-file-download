@@ -34,7 +34,7 @@ class Server {
     }
 
     protected function handleFilter() {
-        $pathInfo = $_SERVER['PATH_INFO'] ?? "/";
+        $pathInfo = Helper::pathInfo();
         foreach ($this->filters as $pattern => $filter) {
             $ignore = $this->matchPattern($pattern, $pathInfo) < 0;
             if (!$ignore && !$filter()) {
@@ -45,7 +45,7 @@ class Server {
     }
 
     protected function handleMapping($uri = '') {
-        $uri = $uri ?: ($_SERVER['PATH_INFO'] ?? "/");
+        $uri = $uri ?: Helper::pathInfo();
         $handle = $this->resovleMapping($uri);
         $res = $handle($uri);
         $this->handleResult($res);

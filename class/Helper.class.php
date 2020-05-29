@@ -10,6 +10,10 @@ class Helper {
         return ($c = $_SERVER['CONTENT_TYPE'] ?? null) && strpos(strtolower($c), 'application/json') !== false;
     }
 
+    public static function pathInfo() {
+        return $_SERVER['PATH_INFO'] ?? "/";
+    }
+
     /**
      * 获取当前请求的参数，如果不存在返回null
      */
