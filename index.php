@@ -1,4 +1,6 @@
 <?php
+echo $_SERVER['PATH_INFO'];exit;
+
 spl_autoload_register(function ($name) {
     $path = __DIR__ . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . $name . '.class.php';
     require_once $path;
