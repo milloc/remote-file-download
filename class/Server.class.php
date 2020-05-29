@@ -34,9 +34,9 @@ class Server {
     }
 
     protected function handleFilter() {
-        $pathInfo = $_SERVER['REQUEST_URI'];
+        $pathInfo = $_SERVER['PATH_INFO'];
         foreach ($this->filters as $pattern => $filter) {
-            $ignore = matchPattern($pattern, $pathInfo) < 0;
+            $ignore = $this->matchPattern($pattern, $pathInfo) < 0;
             if (!$ignore && !$filter()) {
                 return false;
             }
@@ -45,7 +45,7 @@ class Server {
     }
 
     protected function handleMapping($uri = '') {
-        $uri = $uri ?: $_SERVER['REQUEST_URI'];
+        $uri = $uri ?: $_SERVER['PATH_INFO'];
         $handle = $this->resovleMapping($uri);
         $res = $handle($uri);
         $this->handleResult($res);
@@ -60,7 +60,7 @@ class Server {
         $max = 0;
         $maxHandler = null;
         foreach ($this->handlers as $pattern => $h) {
-            if (($c = matchPattern($pattern, $pathInfo)) == 0) {
+            if (($c = $this->matchPattern($pattern, $pathInfo)) == 0) {
                 // 完全匹配 直接返回
                 return $h;
             }
@@ -86,7 +86,7 @@ class Server {
      */
     private function matchPattern($pattern, $pathInfo) {
         if ($pattern == $pathInfo) {
-            return -1;
+            return 0;
         }
         if (($l = strlen($pattern)) >= 3 && ($p = strpos($pattern, '**', $l - 2)) !== false) {
             return $p;
