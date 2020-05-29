@@ -34,50 +34,54 @@ Helper::registry("/remoteDownload", function() {
     $url = Helper::json('url');
     $url = preg_replace('#\?.*$#', '', $url);
 
-    $filename = ($arr = array_filter(explode("/", $url)))[count($arr)];
-    if ($filename == '') {
-        $filename = time() + ".file";
-    }
-  
-    $fp = fopen($tempDir . $filename, 'w');
-    $success = false;
-    $maxRedirect = 10;
-
-    for(;;) {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
-        if (!curl_exec($ch)) {
-            break;
+    try {
+        $filename = ($arr = array_filter(explode("/", $url)))[count($arr)];
+        if ($filename == '') {
+            $filename = time() + ".file";
         }
-        $info = curl_getinfo($ch);
-
-        curl_close($ch);
-        if (in_array($info['http_code'], [301, 302, 303, 307])) {
-            if ($maxRedirect-- > 0) {
-                $url = $info['redirect_url'];
-                continue;
-            } else {
+      
+        $fp = fopen($tempDir . $filename, 'w');
+        $success = false;
+        $maxRedirect = 10;
+    
+        for(;;) {
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    
+            if (!curl_exec($ch)) {
                 break;
             }
+            $info = curl_getinfo($ch);
+    
+            curl_close($ch);
+            if (in_array($info['http_code'], [301, 302, 303, 307])) {
+                if ($maxRedirect-- > 0) {
+                    $url = $info['redirect_url'];
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            if ($info['http_code'] == 200) {
+                $success = true;
+            }
+            break;
         }
-        if ($info['http_code'] == 200) {
-            $success = true;
+    
+        fclose($fp);
+        if (!$success) {
+            if (file_exists($fp)) {
+                unlink($fp);
+            }
+            return Res::err('下载失败!');
         }
-        break;
+        return Res::ok();
+    } catch (Exception $e) {
+        return Res::err($e);
     }
-
-    fclose($fp);
-    if (!$success) {
-        if (file_exists($fp)) {
-            unlink($fp);
-        }
-        return Res::err('下载失败!');
-    }
-    return Res::ok();
 });
 
 Helper::registry("/downFile", function() {
